@@ -1,103 +1,466 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Code2,
+  Globe,
+  Cloud,
+  Palette,
+  Server,
+  Zap,
+  ChevronRight,
+  Github,
+  Linkedin,
+  Twitter,
+  Menu,
+  X,
+} from "lucide-react";
 import Image from "next/image";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    // Simple fade-in animation for elements
+    const animateElements = () => {
+      const elements = document.querySelectorAll(".fade-in");
+      elements.forEach((el, index) => {
+        setTimeout(() => {
+          el.classList.add("opacity-100", "translate-y-0");
+        }, index * 150);
+      });
+    };
+
+    animateElements();
+  }, []);
+
+  const services = [
+    {
+      icon: <Globe size={24} />,
+      title: "Web Development",
+      desc: "React, Next.js, MERN",
+    },
+    {
+      icon: <Cloud size={24} />,
+      title: "SaaS Development",
+      desc: "Cloud-based solutions",
+    },
+    {
+      icon: <Palette size={24} />,
+      title: "UI/UX Design",
+      desc: "User-centered design",
+    },
+    {
+      icon: <Server size={24} />,
+      title: "API & Backend",
+      desc: "Robust backend systems",
+    },
+    {
+      icon: <Zap size={24} />,
+      title: "Deployment",
+      desc: "Fast and reliable hosting",
+    },
+  ];
+
+  // const projects = [
+  //   { name: "Blog-GPT", tech: "Next.js, OpenAI", category: "AI Blog Platform" },
+  //   {
+  //     name: "Portfolio Website",
+  //     tech: "React, Tailwind",
+  //     category: "Portfolio",
+  //   },
+  //   { name: "Notepad App", tech: "React, Firebase", category: "Productivity" },
+  //   {
+  //     name: "Pokémon Viewer",
+  //     tech: "React, PokeAPI",
+  //     category: "Entertainment",
+  //   },
+  //   {
+  //     name: "Restaurant E-commerce",
+  //     tech: "Next.js, Stripe",
+  //     category: "E-commerce",
+  //   },
+  // ];
+  const projects = [
+    {
+      name: "Ruby Scaffolding",
+      category: "Business Website",
+      description:
+        "A professional website built for Ruby Scaffolding to showcase their scaffolding rental and sales services. Designed with a clean UI for easy navigation and quick service inquiries.",
+      tech: "React, Tailwind CSS, Node.js",
+      link: "https://rubyscaffolding.com",
+      image: "/images/projects/ruby-scaffolding.webp",
+    },
+    {
+      name: "Vigneshwaran",
+      category: "Portfolio Website",
+      description:
+        "A modern personal portfolio website for Vigneshwaran to highlight skills, projects, and professional achievements with a sleek and responsive design.",
+      tech: "Next.js, Tailwind CSS",
+      link: "https://vigneshwaran.co.in",
+      image: "/images/projects/vigneshwaran-portfolio.webp",
+    },
+  ];
+
+
+  const processSteps = [
+    { title: "Plan", desc: "Requirement analysis & planning" },
+    { title: "Design", desc: "UI/UX design & prototyping" },
+    { title: "Develop", desc: "Agile development process" },
+    { title: "Deploy", desc: "Testing & deployment" },
+    { title: "Support", desc: "Maintenance & updates" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white overflow-hidden">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen z-10 py-20 px-6 md:px-12 flex flex-col items-center justify-center text-center">
+        <div className="max-w-4xl fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            Code <span className="text-cyan-400">Smart</span>, Solve{" "}
+            <span className="text-purple-400">Big</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
+            We build scalable, modern, and creative digital solutions for your
+            business
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* <button className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg font-medium hover:from-cyan-600 hover:to-blue-600 transition-all transform hover:-translate-y-1">
+              Get Started
+            </button> */}
+            <a href="#projects">
+              <button className="px-8 py-3 bg-white/10 backdrop-blur-md rounded-lg font-medium border border-white/20 hover:bg-white/20 transition-all">
+                View Projects
+              </button>
+            </a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="relative z-10 py-16 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            About Codolve
+          </h2>
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 mb-16 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            <p className="text-xl text-center text-gray-300">
+              Codolve is a web development studio that builds scalable, modern,
+              and creative digital solutions. We specialize in websites, SaaS
+              platforms, and problem-solving with smart coding.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {["Innovation", "Scalability", "Problem Solving"].map(
+              (value, index) => (
+                <div
+                  key={index}
+                  className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 flex flex-col items-center text-center fade-in opacity-0 translate-y-10 transition-all duration-700"
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  <div className="w-14 h-14 bg-cyan-500/20 rounded-full flex items-center justify-center mb-4">
+                    <Zap size={24} className="text-cyan-400" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{value}</h3>
+                  <p className="text-gray-300">
+                    Cutting-edge solutions that drive your business forward
+                  </p>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="relative z-10 py-16 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            Our Services
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-cyan-400/30 transition-all duration-300 fade-in opacity-0 translate-y-10"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-2">{service.title}</h3>
+                <p className="text-gray-300">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Project */}
+      {/* Featured Projects */}
+      <section id="projects" className="relative z-10 py-16 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            Featured Projects
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {/* Project 1 - MoneyNest */}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 overflow-hidden fade-in opacity-0 translate-y-10 transition-all duration-700">
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-16 h-16 bg-cyan-200 rounded-xl flex items-center justify-center">
+                    <Image
+                      src={"/images/saas-logo/moneynest.png"}
+                      alt="Money Nest Logo"
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                    />
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold">MoneyNest</h3>
+                </div>
+                <p className="text-gray-300">
+                  A personal money management SaaS built for tracking income,
+                  expenses, and financial goals with intuitive visualizations
+                  and smart budgeting tools.
+                </p>
+                <a
+                  href="https://moneynestapp.vercel.app/"
+                  target="_blank"
+                  className="flex items-center text-cyan-400 font-medium group"
+                >
+                  View Project{" "}
+                  <ChevronRight
+                    size={20}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </a>
+                <div className="rounded-xl overflow-hidden mt-4">
+                  <Image
+                    src={"/images/home/1.png"}
+                    alt="MoneyNest Preview"
+                    width={1920}
+                    height={1080}
+                    className="object-cover rounded-xl"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Project 2 - BlogGPT */}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 overflow-hidden fade-in opacity-0 translate-y-10 transition-all duration-700">
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-16 h-16 bg-purple-300 rounded-xl flex items-center justify-center">
+                    <Image
+                      src={"/images/saas-logo/bloggpt.png"}
+                      alt="BlogGPT Logo"
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                    />
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold">BlogGPT</h3>
+                </div>
+                <p className="text-gray-300">
+                  An AI-powered blogging platform that helps writers generate,
+                  optimize, and publish engaging articles with smart SEO
+                  insights.
+                </p>
+                <a
+                  href="https://thebloggpt.com"
+                  target="_blank"
+                  className="flex items-center text-cyan-400 font-medium group"
+                >
+                  View Project{" "}
+                  <ChevronRight
+                    size={20}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </a>
+                <div className="rounded-xl overflow-hidden mt-4">
+                  <Image
+                    src={"/images/home/2.png"}
+                    alt="BlogGPT Preview"
+                    width={1920}
+                    height={1080}
+                    className="object-cover rounded-xl"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Client Projects */}
+      <section
+        id="clientprojects"
+        className="relative z-10 py-16 px-6 md:px-12"
+      >
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            Client Projects
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((project, index) => (
+              <div
+                key={index}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-purple-400/30 transition-all duration-300 fade-in opacity-0 translate-y-10"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {/* Project Image */}
+                <div className="rounded-lg h-40 mb-4 overflow-hidden flex items-center justify-center bg-gradient-to-br from-purple-500/10 to-blue-500/10">
+                  <Image
+                    src={project.image}
+                    alt={project.name}
+                    width={400}
+                    height={250}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+
+                {/* Project Info */}
+                <h3 className="text-xl font-bold mb-1">{project.name}</h3>
+                <p className="text-sm text-gray-400 mb-2">{project.category}</p>
+                <p className="text-sm text-gray-300 mb-4">
+                  {project.description}
+                </p>
+                <p className="text-xs text-gray-500 mb-4">
+                  Tech: {project.tech}
+                </p>
+
+                {/* Link */}
+                {project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-sm text-cyan-400 font-medium hover:underline"
+                  >
+                    View Live
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section id="process" className="relative z-10 py-16 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            Our Process
+          </h2>
+          <div className="flex flex-col md:flex-row justify-between relative">
+            {/* Timeline line */}
+            <div className="hidden md:block absolute left-1/2 top-16 bottom-16 w-1 bg-gradient-to-b from-cyan-500 to-blue-500 -translate-x-1/2"></div>
+
+            {processSteps.map((step, index) => (
+              <div
+                key={index}
+                className={`bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6 md:mb-0 md:w-36 flex-1 mx-2 fade-in opacity-0 translate-y-10 transition-all duration-700`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mb-4">
+                    <span className="text-lg font-bold text-cyan-400">
+                      {index + 1}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+                  <p className="text-sm text-gray-300">{step.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="relative z-10 py-16 px-6 md:px-12">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            Get In Touch
+          </h2>
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 fade-in opacity-0 translate-y-10 transition-all duration-700">
+            <form className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block mb-2 text-gray-300">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block mb-2 text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    placeholder="Your email"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="message" className="block mb-2 text-gray-300">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  rows={4}
+                  className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  placeholder="Your message"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg py-3 font-medium hover:from-cyan-600 hover:to-blue-600 transition-all"
+              >
+                Send Message
+              </button>
+            </form>
+
+            <div className="flex justify-center space-x-6 mt-12">
+              <a
+                href="#"
+                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-cyan-500/20 transition-all"
+              >
+                <Github size={20} />
+              </a>
+              <a
+                href="#"
+                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-blue-500/20 transition-all"
+              >
+                <Linkedin size={20} />
+              </a>
+              <a
+                href="#"
+                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-sky-500/20 transition-all"
+              >
+                <Twitter size={20} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
