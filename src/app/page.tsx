@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
-  Code2,
   Globe,
   Cloud,
   Palette,
@@ -12,15 +11,12 @@ import {
   Github,
   Linkedin,
   Twitter,
-  Menu,
-  X,
 } from "lucide-react";
 import Image from "next/image";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     // Simple fade-in animation for elements
