@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     description:
       "Codolve is a modern web development studio crafting scalable websites, SaaS platforms, and digital solutions.",
     images: ["https://codolve.com/og-image.png"], // replace with your OG image
-    creator: "@codolve", // update if you have a Twitter handle
+    creator: "@CodolveOfficial", // update if you have a Twitter handle
   },
   metadataBase: new URL("https://codolve.com"),
   alternates: {
