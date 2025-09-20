@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-5 left-1/2 transform -translate-x-1/2 w-[90%] max-w-5xl z-50 bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 backdrop-blur-md border border-gray-100/30 rounded-2xl px-6 py-3 shadow-lg shadow-cyan-500/10">
+    <nav className="fixed top-5 left-1/2 transform -translate-x-1/2 w-[90%] max-w-5xl z-50 bg-white/10 backdrop-blur-lg border-b border-white/20 rounded-2xl px-6 py-3 shadow-lg shadow-cyan-500/10">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-3">
@@ -89,44 +89,48 @@ export default function Navbar() {
         {/* Mobile Menu Overlay */}
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 backdrop-blur-md border border-gray-100/30 rounded-2xl z-40 md:hidden shadow-lg shadow-cyan-500/10">
-            <div className="flex flex-col items-center space-y-6 py-6 text-xl">
-              <a
-                href="#"
-                className="text-gray-300 hover:text-cyan-300 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </a>
-              <a
-                href="#services"
-                className="text-gray-300 hover:text-cyan-300 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Services
-              </a>
-              <a
-                href="#projects"
-                className="text-gray-300 hover:text-cyan-300 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Projects
-              </a>
-              <a
-                href="#process"
-                className="text-gray-300 hover:text-cyan-300 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Process
-              </a>
-              <a
-                href="#contact"
-                className="text-gray-300 hover:text-cyan-300 transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </a>
-            </div>
+          <div
+  className="fixed inset-x-0 top-[64px] w-full md:hidden
+             bg-white/10 backdrop-blur-xl border-t border-white/20
+             shadow-lg shadow-cyan-500/10 z-40
+             flex flex-col items-center space-y-6 py-6 text-xl"
+>
+
+            <a
+              href="#"
+              className="text-gray-200 hover:text-cyan-300 transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </a>
+            <a
+              href="#services"
+              className="text-gray-200 hover:text-cyan-300 transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Services
+            </a>
+            <a
+              href="#projects"
+              className="text-gray-200 hover:text-cyan-300 transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Projects
+            </a>
+            <a
+              href="#process"
+              className="text-gray-200 hover:text-cyan-300 transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Process
+            </a>
+            <a
+              href="#contact"
+              className="text-gray-200 hover:text-cyan-300 transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </a>
           </div>
         )}
       </div>

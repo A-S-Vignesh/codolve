@@ -76,7 +76,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Codolve" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-blue-950 via-purple-950 to-indigo-950 min-h-screen`}
       >
         {/* Google Analytics Script */}
         <Script
@@ -91,8 +91,9 @@ export default function RootLayout({
             gtag('config', 'G-M64RHB4Q3F');
           `}
         </Script>
-
-        {children}
+        {/* <div className="bg-gradient-to-br from-blue-950 via-purple-950 to-indigo-950"> */}
+          {children}
+        {/* </div> */}
       </body>
     </html>
   );

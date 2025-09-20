@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import {
   Globe,
   Cloud,
@@ -15,135 +15,308 @@ import {
 import Image from "next/image";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register GSAP plugins
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+// Define types
+interface Service {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}
+
+interface Project {
+  name: string;
+  category: string;
+  description: string;
+  tech: string;
+  image: string;
+  link?: string;
+}
+
+interface ProcessStep {
+  title: string;
+  desc: string;
+}
+
+const services:Service[] = [
+  {
+    icon: <Globe size={24} />,
+    title: "Web Development",
+    desc: "React, Next.js, MERN",
+  },
+  {
+    icon: <Cloud size={24} />,
+    title: "SaaS Development",
+    desc: "Cloud-based solutions",
+  },
+  {
+    icon: <Palette size={24} />,
+    title: "UI/UX Design",
+    desc: "User-centered design",
+  },
+  {
+    icon: <Server size={24} />,
+    title: "API & Backend",
+    desc: "Robust backend systems",
+  },
+  {
+    icon: <Zap size={24} />,
+    title: "Deployment",
+    desc: "Fast and reliable hosting",
+  },
+];
+const projects:Project[] = [
+  {
+    name: "Ruby Scaffolding",
+    category: "Business Website",
+    description:
+      "A professional website built for Ruby Scaffolding to showcase their scaffolding rental and sales services. Designed with a clean UI for easy navigation and quick service inquiries.",
+    tech: "React, Tailwind CSS, Node.js",
+    link: "https://rubyscaffolding.com",
+    image: "/images/projects/ruby-scaffolding.webp",
+  },
+  {
+    name: "Vigneshwaran",
+    category: "Portfolio Website",
+    description:
+      "A modern personal portfolio website for Vigneshwaran to highlight skills, projects, and professional achievements with a sleek and responsive design.",
+    tech: "Next.js, Tailwind CSS",
+    link: "https://vigneshwaran.co.in",
+    image: "/images/projects/vigneshwaran-portfolio.webp",
+  },
+];
+
+const processSteps:ProcessStep[] = [
+  { title: "Plan", desc: "Requirement analysis & planning" },
+  { title: "Design", desc: "UI/UX design & prototyping" },
+  { title: "Develop", desc: "Agile development process" },
+  { title: "Deploy", desc: "Testing & deployment" },
+  { title: "Support", desc: "Maintenance & updates" },
+];
 
 export default function Home() {
+  const container = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const projectsRef = useRef<HTMLDivElement>(null);
+  const processRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Simple fade-in animation for elements
-    const animateElements = () => {
-      const elements = document.querySelectorAll(".fade-in");
-      elements.forEach((el, index) => {
-        setTimeout(() => {
-          el.classList.add("opacity-100", "translate-y-0");
-        }, index * 150);
+  // Main GSAP animations
+  useGSAP(
+    () => {
+      if (typeof window === "undefined") return;
+
+      // ========= HERO TIMELINE =========
+      const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+      heroTl
+        .fromTo(
+          ".hero-title",
+          { y: 80, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.2, stagger: 0.15 }
+        )
+        .fromTo(
+          ".hero-subtitle",
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: "power2.out" },
+          "-=0.6"
+        )
+        .fromTo(
+          ".hero-button",
+          { y: 20, opacity: 0, scale: 0.95 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "back.out(1.7)",
+          },
+          "-=0.4"
+        );
+
+      // ========= GRADIENT BACKGROUND =========
+      gsap.to("body", {
+        backgroundPosition: "50% 60%",
+        duration: 25,
+        ease: "none",
+        repeat: -1,
+        yoyo: true,
       });
-    };
 
-    animateElements();
-  }, []);
-
-  const services = [
-    {
-      icon: <Globe size={24} />,
-      title: "Web Development",
-      desc: "React, Next.js, MERN",
-    },
-    {
-      icon: <Cloud size={24} />,
-      title: "SaaS Development",
-      desc: "Cloud-based solutions",
-    },
-    {
-      icon: <Palette size={24} />,
-      title: "UI/UX Design",
-      desc: "User-centered design",
-    },
-    {
-      icon: <Server size={24} />,
-      title: "API & Backend",
-      desc: "Robust backend systems",
-    },
-    {
-      icon: <Zap size={24} />,
-      title: "Deployment",
-      desc: "Fast and reliable hosting",
-    },
-  ];
-
-  // const projects = [
-  //   { name: "Blog-GPT", tech: "Next.js, OpenAI", category: "AI Blog Platform" },
-  //   {
-  //     name: "Portfolio Website",
-  //     tech: "React, Tailwind",
-  //     category: "Portfolio",
-  //   },
-  //   { name: "Notepad App", tech: "React, Firebase", category: "Productivity" },
-  //   {
-  //     name: "Pokémon Viewer",
-  //     tech: "React, PokeAPI",
-  //     category: "Entertainment",
-  //   },
-  //   {
-  //     name: "Restaurant E-commerce",
-  //     tech: "Next.js, Stripe",
-  //     category: "E-commerce",
-  //   },
-  // ];
-  const projects = [
-    {
-      name: "Ruby Scaffolding",
-      category: "Business Website",
-      description:
-        "A professional website built for Ruby Scaffolding to showcase their scaffolding rental and sales services. Designed with a clean UI for easy navigation and quick service inquiries.",
-      tech: "React, Tailwind CSS, Node.js",
-      link: "https://rubyscaffolding.com",
-      image: "/images/projects/ruby-scaffolding.webp",
-    },
-    {
-      name: "Vigneshwaran",
-      category: "Portfolio Website",
-      description:
-        "A modern personal portfolio website for Vigneshwaran to highlight skills, projects, and professional achievements with a sleek and responsive design.",
-      tech: "Next.js, Tailwind CSS",
-      link: "https://vigneshwaran.co.in",
-      image: "/images/projects/vigneshwaran-portfolio.webp",
-    },
-  ];
+      // ========= SECTIONS SCROLL ANIM =========
+      gsap.utils.toArray("section").forEach((section) => {
+        const el = section as HTMLElement;
+        gsap.fromTo(
+          el.querySelectorAll(".fade-in"),
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 80%",
+              end: "bottom 20%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
 
 
-  const processSteps = [
-    { title: "Plan", desc: "Requirement analysis & planning" },
-    { title: "Design", desc: "UI/UX design & prototyping" },
-    { title: "Develop", desc: "Agile development process" },
-    { title: "Deploy", desc: "Testing & deployment" },
-    { title: "Support", desc: "Maintenance & updates" },
-  ];
+      // ========= SERVICE CARDS =========
+      gsap.fromTo(
+        ".service-card",
+        { y: 70, opacity: 0, rotateY: -10 },
+        {
+          y: 0,
+          opacity: 1,
+          rotateY: 0,
+          duration: 1,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: "#services",
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // ========= PROCESS STEPS =========
+      gsap.fromTo(
+        ".process-step",
+        { scale: 0.9, opacity: 0, y: 30 },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: "back.out(1.5)",
+          scrollTrigger: {
+            trigger: "#process",
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // ========= PROJECT CARDS =========
+      gsap.fromTo(
+        ".project-card",
+        { y: 100, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: "#projects",
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // ========= FLOATING ELEMENTS =========
+      gsap.to(".float", {
+        y: -20,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
+
+      // ========= SMOOTH SCROLL NAV =========
+      document
+        .querySelectorAll<HTMLAnchorElement>('a[href^="#"]')
+        .forEach((anchor) => {
+          anchor.addEventListener("click", (e) => {
+            e.preventDefault();
+            const href = anchor.getAttribute("href");
+            if (href) {
+              const target = document.querySelector(href);
+              if (target) {
+                gsap.to(window, {
+                  duration: 1.3,
+                  scrollTo: { y: target, offsetY: 80 },
+                  ease: "expo.inOut",
+                });
+              }
+            }
+          });
+        });
+    },
+    { scope: container }
+  );
+
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white overflow-hidden">
+    <div
+      ref={container}
+      className="min-h-screen text-white overflow-hidden"
+    >
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen z-10 py-20 px-6 md:px-12 flex flex-col items-center justify-center text-center">
-        <div className="max-w-4xl fade-in opacity-0 translate-y-10 transition-all duration-700">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+      <section
+        ref={heroRef}
+        className="hero relative min-h-screen z-10 py-20 px-6 md:px-12 flex flex-col items-center justify-center text-center"
+      >
+        <div className="max-w-4xl">
+          <h1 className="hero-title text-5xl md:text-7xl font-bold mb-10 opacity-0">
             Code <span className="text-cyan-400">Smart</span>, Solve{" "}
             <span className="text-purple-400">Big</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
+          <p className="hero-subtitle text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto opacity-0">
             We build scalable, modern, and creative digital solutions for your
             business
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <button className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg font-medium hover:from-cyan-600 hover:to-blue-600 transition-all transform hover:-translate-y-1">
-              Get Started
-            </button> */}
             <a href="#projects">
-              <button className="px-8 py-3 bg-white/10 backdrop-blur-md rounded-lg font-medium border border-white/20 hover:bg-white/20 transition-all">
+              <button className="hero-button px-8 py-3 bg-white/10 backdrop-blur-md rounded-lg font-medium border border-white/20 hover:bg-white/20 transition-all opacity-0">
                 View Projects
               </button>
             </a>
           </div>
         </div>
+
+        {/* Animated floating elements */}
+        <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-400/30 rounded-full float"></div>
+        <div
+          className="absolute top-1/3 right-1/4 w-6 h-6 bg-purple-400/20 rounded-full float"
+          style={{ animationDelay: "0.5s" }}
+        ></div>
+        <div
+          className="absolute bottom-1/4 left-1/3 w-5 h-5 bg-blue-400/25 rounded-full float"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-16 px-6 md:px-12">
+      <section
+        id="about"
+        ref={aboutRef}
+        className="relative z-10 py-16 px-6 md:px-12"
+      >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">
             About Codolve
           </h2>
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 mb-16 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 mb-16 fade-in">
             <p className="text-xl text-center text-gray-300">
               Codolve is a web development studio that builds scalable, modern,
               and creative digital solutions. We specialize in websites, SaaS
@@ -156,8 +329,7 @@ export default function Home() {
               (value, index) => (
                 <div
                   key={index}
-                  className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 flex flex-col items-center text-center fade-in opacity-0 translate-y-10 transition-all duration-700"
-                  style={{ transitionDelay: `${index * 150}ms` }}
+                  className="service-card bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 flex flex-col items-center text-center"
                 >
                   <div className="w-14 h-14 bg-cyan-500/20 rounded-full flex items-center justify-center mb-4">
                     <Zap size={24} className="text-cyan-400" />
@@ -174,17 +346,20 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="relative z-10 py-16 px-6 md:px-12">
+      <section
+        id="services"
+        ref={servicesRef}
+        className="relative z-10 py-16 px-6 md:px-12"
+      >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">
             Our Services
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <div
                 key={index}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-cyan-400/30 transition-all duration-300 fade-in opacity-0 translate-y-10"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="service-card bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-cyan-400/30 transition-all duration-300"
               >
                 <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
                   {service.icon}
@@ -197,17 +372,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Project */}
       {/* Featured Projects */}
-      <section id="projects" className="relative z-10 py-16 px-6 md:px-12">
+      <section
+        id="projects"
+        ref={projectsRef}
+        className="relative z-10 py-16 px-6 md:px-12"
+      >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">
             Featured Projects
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* Project 1 - MoneyNest */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 overflow-hidden fade-in opacity-0 translate-y-10 transition-all duration-700">
+            <div className="project-card bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 overflow-hidden">
               <div className="flex flex-col gap-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-16 h-16 bg-cyan-200 rounded-xl flex items-center justify-center">
@@ -243,14 +421,14 @@ export default function Home() {
                     alt="MoneyNest Preview"
                     width={1920}
                     height={1080}
-                    className="object-cover rounded-xl"
+                    className="object-cover rounded-xl transform transition-transform duration-700 hover:scale-105"
                   />
                 </div>
               </div>
             </div>
 
             {/* Project 2 - BlogGPT */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 overflow-hidden fade-in opacity-0 translate-y-10 transition-all duration-700">
+            <div className="project-card bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 overflow-hidden">
               <div className="flex flex-col gap-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-16 h-16 bg-purple-300 rounded-xl flex items-center justify-center">
@@ -286,7 +464,7 @@ export default function Home() {
                     alt="BlogGPT Preview"
                     width={1920}
                     height={1080}
-                    className="object-cover rounded-xl"
+                    className="object-cover rounded-xl transform transition-transform duration-700 hover:scale-105"
                   />
                 </div>
               </div>
@@ -301,15 +479,14 @@ export default function Home() {
         className="relative z-10 py-16 px-6 md:px-12"
       >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">
             Client Projects
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-purple-400/30 transition-all duration-300 fade-in opacity-0 translate-y-10"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="project-card bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-purple-400/30 transition-all duration-300"
               >
                 {/* Project Image */}
                 <div className="rounded-lg h-40 mb-4 overflow-hidden flex items-center justify-center bg-gradient-to-br from-purple-500/10 to-blue-500/10">
@@ -318,7 +495,7 @@ export default function Home() {
                     alt={project.name}
                     width={400}
                     height={250}
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full transform transition-transform duration-700 hover:scale-110"
                   />
                 </div>
 
@@ -350,20 +527,25 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section id="process" className="relative z-10 py-16 px-6 md:px-12">
+      <section
+        id="process"
+        ref={processRef}
+        className="relative z-10 py-16 px-6 md:px-12"
+      >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">
             Our Process
           </h2>
           <div className="flex flex-col md:flex-row justify-between relative">
-            {/* Timeline line */}
-            <div className="hidden md:block absolute left-1/2 top-16 bottom-16 w-1 bg-gradient-to-b from-cyan-500 to-blue-500 -translate-x-1/2"></div>
+            {/* Animated timeline line */}
+            {/* <div className="hidden md:block absolute left-1/2 top-16 bottom-16 w-1 bg-gradient-to-b from-cyan-500 to-blue-500 -translate-x-1/2">
+              <div className="h-0 w-full bg-cyan-400 timeline-progress"></div>
+            </div> */}
 
             {processSteps.map((step, index) => (
               <div
                 key={index}
-                className={`bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6 md:mb-0 md:w-36 flex-1 mx-2 fade-in opacity-0 translate-y-10 transition-all duration-700`}
-                style={{ transitionDelay: `${index * 150}ms` }}
+                className={`process-step bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 mb-6 md:mb-0 md:w-36 flex-1 mx-2`}
               >
                 <div className="flex flex-col items-center text-center">
                   <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mb-4">
@@ -381,12 +563,16 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="relative z-10 py-16 px-6 md:px-12">
+      <section
+        id="contact"
+        ref={contactRef}
+        className="relative z-10 py-16 px-6 md:px-12"
+      >
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">
             Get In Touch
           </h2>
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 fade-in opacity-0 translate-y-10 transition-all duration-700">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 fade-in">
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -396,7 +582,7 @@ export default function Home() {
                   <input
                     type="text"
                     id="name"
-                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                     placeholder="Your name"
                   />
                 </div>
@@ -407,7 +593,7 @@ export default function Home() {
                   <input
                     type="email"
                     id="email"
-                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                     placeholder="Your email"
                   />
                 </div>
@@ -419,13 +605,13 @@ export default function Home() {
                 <textarea
                   id="message"
                   rows={4}
-                  className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                   placeholder="Your message"
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg py-3 font-medium hover:from-cyan-600 hover:to-blue-600 transition-all"
+                className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg py-3 font-medium hover:from-cyan-600 hover:to-blue-600 transition-all transform hover:-translate-y-1"
               >
                 Send Message
               </button>
@@ -434,19 +620,19 @@ export default function Home() {
             <div className="flex justify-center space-x-6 mt-12">
               <a
                 href="#"
-                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-cyan-500/20 transition-all"
+                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-cyan-500/20 transition-all transform hover:-translate-y-1"
               >
                 <Github size={20} />
               </a>
               <a
                 href="#"
-                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-blue-500/20 transition-all"
+                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-blue-500/20 transition-all transform hover:-translate-y-1"
               >
                 <Linkedin size={20} />
               </a>
               <a
                 href="#"
-                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-sky-500/20 transition-all"
+                className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-sky-500/20 transition-all transform hover:-translate-y-1"
               >
                 <Twitter size={20} />
               </a>
@@ -455,7 +641,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
