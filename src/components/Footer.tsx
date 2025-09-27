@@ -19,7 +19,7 @@ export default function Footer() {
             <span className="text-gray-400">| Code Smart, Solve Big</span>
           </div>
           <div className="flex space-x-6 text-gray-400">
-            <a href="#" className="hover:text-cyan-400 transition-colors">
+            <a href="#home" className="hover:text-cyan-400 transition-colors">
               Home
             </a>
             <a

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import SmoothScrollWrapper from "../components/SmoothScrollWrapper";
 
 import "./globals.css";
 
@@ -91,9 +92,11 @@ export default function RootLayout({
             gtag('config', 'G-M64RHB4Q3F');
           `}
         </Script>
+        {/* <SmoothScrollWrapper> */}
         {/* <div className="bg-gradient-to-br from-blue-950 via-purple-950 to-indigo-950"> */}
-          {children}
+        {children}
         {/* </div> */}
+        {/* </SmoothScrollWrapper> */}
       </body>
     </html>
   );

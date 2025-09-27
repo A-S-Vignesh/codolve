@@ -13,14 +13,15 @@ import {
   Twitter,
 } from "lucide-react";
 import Image from "next/image";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 // Register GSAP plugins
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollToPlugin);
 
 // Define types
 interface Service {
@@ -43,7 +44,7 @@ interface ProcessStep {
   desc: string;
 }
 
-const services:Service[] = [
+const services: Service[] = [
   {
     icon: <Globe size={24} />,
     title: "Web Development",
@@ -70,7 +71,7 @@ const services:Service[] = [
     desc: "Fast and reliable hosting",
   },
 ];
-const projects:Project[] = [
+const projects: Project[] = [
   {
     name: "Ruby Scaffolding",
     category: "Business Website",
@@ -91,13 +92,22 @@ const projects:Project[] = [
   },
 ];
 
-const processSteps:ProcessStep[] = [
+const processSteps: ProcessStep[] = [
   { title: "Plan", desc: "Requirement analysis & planning" },
   { title: "Design", desc: "UI/UX design & prototyping" },
   { title: "Develop", desc: "Agile development process" },
   { title: "Deploy", desc: "Testing & deployment" },
   { title: "Support", desc: "Maintenance & updates" },
 ];
+
+const scrollToProjects = () => {
+  gsap.to(window, {
+    duration: 2,
+    scrollTo: "#projects", // ✅ use selector string, not element
+    ease: "power2.inOut",
+  });
+};
+
 
 export default function Home() {
   const container = useRef<HTMLDivElement>(null);
@@ -130,68 +140,56 @@ export default function Home() {
         )
         .fromTo(
           ".hero-button",
-          { y: 20, opacity: 0, scale: 0.95 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "back.out(1.7)",
-          },
-          "-=0.4"
+          { y: 20, opacity: 0 }, // smaller distance (20px instead of 40px)
+          { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, // faster
+          "-=0.5" // overlaps nicely
         );
 
-      // ========= GRADIENT BACKGROUND =========
-      gsap.to("body", {
-        backgroundPosition: "50% 60%",
-        duration: 25,
-        ease: "none",
-        repeat: -1,
-        yoyo: true,
-      });
-
-      // ========= SECTIONS SCROLL ANIM =========
       gsap.utils.toArray("section").forEach((section) => {
         const el = section as HTMLElement;
+        const yValue = window.innerWidth < 768 ? 30 : 60;
+
         gsap.fromTo(
           el.querySelectorAll(".fade-in"),
-          { y: 60, opacity: 0 },
+          { y: yValue, opacity: 0 },
           {
             y: 0,
             opacity: 1,
             duration: 1,
             stagger: 0.15,
-            ease: "power3.out",
+            ease: "power2.out",
             scrollTrigger: {
               trigger: el,
               start: "top 80%",
-              end: "bottom 20%",
-              toggleActions: "play none none reverse",
+              once: true,
             },
           }
         );
       });
 
-
       // ========= SERVICE CARDS =========
-      gsap.fromTo(
-        ".service-card",
-        { y: 70, opacity: 0, rotateY: -10 },
-        {
-          y: 0,
-          opacity: 1,
-          rotateY: 0,
-          duration: 1,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#services",
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
+      // Example for service cards
+      const serviceCards =
+        servicesRef.current?.querySelectorAll(".service-card");
+      if (serviceCards) {
+        gsap.fromTo(
+          serviceCards,
+          { y: 70, opacity: 0, rotateY: -10 },
+          {
+            y: 0,
+            opacity: 1,
+            rotateY: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: servicesRef.current,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
 
       // ========= PROCESS STEPS =========
       gsap.fromTo(
@@ -263,12 +261,8 @@ export default function Home() {
     { scope: container }
   );
 
-
   return (
-    <div
-      ref={container}
-      className="min-h-screen text-white overflow-hidden"
-    >
+    <div ref={container} className="min-h-screen text-white overflow-hidden">
       <Navbar />
 
       {/* Hero Section */}
@@ -286,11 +280,12 @@ export default function Home() {
             business
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#projects">
-              <button className="hero-button px-8 py-3 bg-white/10 backdrop-blur-md rounded-lg font-medium border border-white/20 hover:bg-white/20 transition-all opacity-0">
-                View Projects
-              </button>
-            </a>
+            <button
+              onClick={scrollToProjects}
+              className="hero-button px-8 py-3 bg-white/10 backdrop-blur-md rounded-lg font-medium border border-white/20 hover:bg-white/20 transition-all opacity-100"
+            >
+              View Projects
+            </button>
           </div>
         </div>
 
