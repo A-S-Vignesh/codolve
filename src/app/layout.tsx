@@ -64,6 +64,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://codolve.com",
   },
+  robots: {
+    index: false,
+    follow:false,
+  }
 };
 
 export default function RootLayout({
@@ -76,22 +80,11 @@ export default function RootLayout({
       <head>
         <meta name="apple-mobile-web-app-title" content="Codolve" />
       </head>
+      {/* bg-gradient-to-br from-blue-950 via-purple-950 to-indigo-950 */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-blue-950 via-purple-950 to-indigo-950 min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-black antialiased min-h-screen`}
       >
         {/* Google Analytics Script */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-M64RHB4Q3F"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-M64RHB4Q3F');
-          `}
-        </Script>
         {/* <SmoothScrollWrapper> */}
         {/* <div className="bg-gradient-to-br from-blue-950 via-purple-950 to-indigo-950"> */}
         {children}

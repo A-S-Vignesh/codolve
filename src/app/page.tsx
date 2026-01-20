@@ -268,6 +268,7 @@ export default function Home() {
       {/* Hero Section */}
       <section
         ref={heroRef}
+        id="home"
         className="hero relative min-h-screen z-10 py-20 px-6 md:px-12 flex flex-col items-center justify-center text-center"
       >
         <div className="max-w-4xl">
